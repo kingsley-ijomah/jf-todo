@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import TodoForm
 from .models import Todo
 
-# Create your views here.
+# FBV (funcion based views)
 
 
 def list_todo(request):
@@ -32,4 +32,10 @@ def update_todo(request, pk):
 
 
 def delete_todo(request, pk):
+    todo = get_object_or_404(Todo, pk=pk)
+
+    if request.method == "POST":
+        todo.delete()
+        return redirect("todo:list-todo")
+
     return render(request, "delete_todo.html", context={})
